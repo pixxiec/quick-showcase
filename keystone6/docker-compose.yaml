@@ -1,0 +1,22 @@
+version: '3.9'
+networks:
+    app-tier:
+        driver: bridge
+    default:
+        name: host
+        external: true
+services:
+    production:
+        container_name: keystone-6
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/app
+        ports:
+            - '3000:3000'
+        command: ['./dumb-init', 'yarn', 'start']
+        networks:
+            - app-tier
+volumes:
+    node_modules:
